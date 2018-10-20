@@ -10,9 +10,11 @@ public class PlayerController : MonoBehaviour {
 	[Tooltip("Jump force")]
 	public float jumpForce;
 
+	public bool reversed { get {if(_reversed == -1) return true; else return false;} set {if(value == true) _reversed = -1; else _reversed = 1;}  }
+
 	private bool grounded;
 	private Rigidbody2D rb;
-	private int nbGrounded;
+	private int nbGrounded = 0, _reversed = 1;
 
 	private void Start() {
 		rb = GetComponent<Rigidbody2D>();
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour {
 	private void Move()
 	{
 		if(Input.GetAxisRaw("Horizontal") != 0)
-			transform.position += Vector3.right * speed * Time.fixedDeltaTime * Mathf.Sign(Input.GetAxisRaw("Horizontal"));
+			transform.position += Vector3.right * speed * Time.fixedDeltaTime * Mathf.Sign(Input.GetAxisRaw("Horizontal")) * _reversed;
 	}
 
 	private void OnCollisionEnter2D(Collision2D other) {
@@ -46,6 +48,6 @@ public class PlayerController : MonoBehaviour {
 		if(other.gameObject.CompareTag("ground"))
 			nbGrounded--;
 			if(nbGrounded == 0)
-				grounded = false;
+				grounded = false; 
 	}
 }

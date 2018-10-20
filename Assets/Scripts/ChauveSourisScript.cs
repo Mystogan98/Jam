@@ -13,7 +13,7 @@ public class ChauveSourisScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		xspeed = (speed/2) * Random.Range(0,2+randomFactor);
+		xspeed = speed * 2 * Random.Range(0.5f,1+randomFactor);
 	}
 	
 	// Update is called once per frame
@@ -22,7 +22,7 @@ public class ChauveSourisScript : MonoBehaviour {
 			sens = -1;
 		else if (transform.position.y < bottom.transform.position.y)
 			sens = 1;
-		transform.position += Vector3.up * (speed * Random.Range(1,1+randomFactor)) * Time.fixedDeltaTime * sens;
+		transform.position += Vector3.up * ((speed/2) * Random.Range(1,1+randomFactor)) * Time.fixedDeltaTime * sens;
 
 		transform.parent.position -= Vector3.right * xspeed * Time.fixedDeltaTime;
 	}

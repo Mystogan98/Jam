@@ -22,7 +22,7 @@ public class ChauveSourisSpawnerScript : MonoBehaviour {
 		{
 			lastSpawn = timer;
 			Instantiate(toSpawn,transform.position,transform.rotation);
-			reloadTime = baseReloadTime * Random.Range(0.2f,randomSpawnTime);
+			reloadTime = baseReloadTime * Random.Range(0.5f,randomSpawnTime);
 		}	
 	}
 }
