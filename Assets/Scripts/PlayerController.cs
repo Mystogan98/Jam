@@ -10,12 +10,6 @@ public class PlayerController : MonoBehaviour {
 	[Tooltip("Jump force")]
 	public float jumpForce;
 
-	[Space(5)]
-	[Header("Borders")]
-	public GameObject right;
-	public GameObject left;
-
-
 	private bool grounded;
 	private Rigidbody2D rb;
 	private int nbGrounded;
@@ -38,10 +32,6 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(Input.GetAxisRaw("Horizontal") != 0)
 			transform.position += Vector3.right * speed * Time.fixedDeltaTime * Mathf.Sign(Input.GetAxisRaw("Horizontal"));
-		if(transform.position.x > right.transform.position.x)
-			transform.position -= Vector3.right * (transform.position.x - right.transform.position.x);
-		if(transform.position.x < left.transform.position.x)
-			transform.position -= Vector3.right * (transform.position.x - left.transform.position.x);
 	}
 
 	private void OnCollisionEnter2D(Collision2D other) {

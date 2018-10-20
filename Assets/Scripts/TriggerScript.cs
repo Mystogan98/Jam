@@ -18,6 +18,7 @@ public class TriggerScript : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		action.Invoke();
+		if(other.gameObject.CompareTag("Player"))
+			action.Invoke();
 	}
 }
