@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TriggerEffectScript : MonoBehaviour {
 
+	public float InvincibilityTimer = 3, dashTimer = 1;
 	static private PlayerController player;
 
 	private void Start() {
@@ -13,24 +14,34 @@ public class TriggerEffectScript : MonoBehaviour {
 
 	public void Die()
 	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		if(player.invincibility == false)
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		else if(player.invincibilityCount != 0)
+			player.invincibilityCount--;
 	} 
 
 	public void Invincibility()
 	{
-		Debug.Log("Not yet implemented");
+		player.invincibilityCount++;
 	}
 
 	public void TempInvincibility()
 	{
-		Debug.Log("Not yet implemented");
+		player.invincibilityTimer = InvincibilityTimer;
 	}
 
 	public void Dash(){
-		Debug.Log("Not yet implemented");
+		player.dashTimer = dashTimer;
+		player.invincibilityTimer = dashTimer;
 	}
 
 	public void Inverser() {
 		player.reversed = !player.reversed;
+	}
+
+	public void gravityInverser() {
+		player.reversedGravity = !player.reversedGravity;
+		player.GetComponent<Rigidbody2D>().gravityScale = -player.GetComponent<Rigidbody2D>().gravityScale;
+		player.transform.localScale = new Vector3(player.transform.localScale.x,-player.transform.localScale.y,0);
 	}
 }
