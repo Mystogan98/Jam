@@ -24,48 +24,52 @@ public class GrapinScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!isLaunched)
+		if(direction != 0)
 		{
-			if(Input.GetMouseButtonDown(0))
+			if(!isLaunched)
 			{
-				Vector2 parent = new Vector2(wagon.transform.position.x,wagon.transform.position.y);
-				Vector2 child = new Vector2(transform.position.x/* + parent.x*/, transform.position.y/* + parent.y*/);
+				if(Input.GetMouseButtonDown(0))
+				{
+					Vector2 parent = new Vector2(wagon.transform.position.x,wagon.transform.position.y);
+					Vector2 child = new Vector2(transform.position.x/* + parent.x*/, transform.position.y/* + parent.y*/);
 
-				target = Physics2D.Raycast(child,
-												new Vector2(((child.x - parent.x) / 
-															(child.y - parent.y)) *
-															(child.y + delta),
-															child.y + delta));
-				Debug.DrawLine(child, new Vector2(((child.x - parent.x) / 
-															(child.y - parent.y)) *
-															(child.y + delta * 200),
-															child.y + delta * 200),Color.black,20);
-				Debug.DrawLine(child, target.transform.position ,Color.red ,20);
-				direction = -1;
-				isLaunched = true;
-			} else {
-				Debug.Log(transform.rotation.eulerAngles.z);
-				if (transform.rotation.eulerAngles.z > baseAngle+clampValue && transform.rotation.eulerAngles.z < baseAngle+clampValue+20)
+					target = Physics2D.Raycast(child,
+													new Vector2(((child.x - parent.x) / 
+																(child.y - parent.y)) *
+																(child.y + delta),
+																child.y + delta));
+					Debug.DrawLine(child, new Vector2(((child.x - parent.x) / 
+																(child.y - parent.y)) *
+																(child.y + delta * 200),
+																child.y + delta * 200),Color.black,20);
+					Debug.DrawLine(child, target.transform.position ,Color.red ,20);
 					direction = -1;
-				else if(transform.rotation.eulerAngles.z < (baseAngle+360)-clampValue && transform.rotation.eulerAngles.z > (baseAngle+360)-clampValue-20)
+					isLaunched = true;
+				} else {
+					if (transform.rotation.eulerAngles.z > baseAngle+clampValue && transform.rotation.eulerAngles.z < baseAngle+clampValue+20)
+						direction = -1;
+					else if(transform.rotation.eulerAngles.z < (baseAngle+360)-clampValue && transform.rotation.eulerAngles.z > (baseAngle+360)-clampValue-20)
+						direction = 1;
+					transform.RotateAround(wagon.transform.position,Vector3.forward,speed * Time.deltaTime * direction);
+				}
+			} else {
+				transform.Translate(new Vector3(0,direction * speedVertical * Time.deltaTime, 0),transform);
+				if(transform.position.y < target.transform.position.y)
+				{
+					spr.sprite = Closed;
 					direction = 1;
-				transform.RotateAround(wagon.transform.position,Vector3.forward,speed * Time.deltaTime * direction);
+				} else if (transform.position.y > baseY && spr.sprite == Closed)
+					direction = 0;
 			}
 		} else {
-			transform.Translate(new Vector3(0,direction * speedVertical * Time.deltaTime, 0),transform);
-			if(transform.position.y < target.transform.position.y)
-			{
-				spr.sprite = Closed;
-				direction = 1;
-			} else if (transform.position.y > baseY && spr.sprite == Closed)
-				direction = 0;
+			transform.parent.position += Vector3.right * 3 * Time.deltaTime;
 		}
 	}
 }
 
 
 
-// grapin (corde)
+// corde
 // item + drop
 // "cinématique"
 // actual buffs
