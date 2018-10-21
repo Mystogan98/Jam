@@ -19,6 +19,10 @@ public class LevelSpawnerScript : MonoBehaviour {
 
 	private void OnTriggerExit2D(Collider2D other) {
 		if(other.gameObject.CompareTag("end"))
-			Instantiate(levels[Random.Range(0,levels.Count)],spawnTransform.transform.position,spawnTransform.transform.rotation);
+		{
+			int rand = Random.Range(0,levels.Count-1);
+			Debug.Log(rand);
+			Instantiate(levels[rand],spawnTransform.transform.position,spawnTransform.transform.rotation);
+		}
 	}
 }

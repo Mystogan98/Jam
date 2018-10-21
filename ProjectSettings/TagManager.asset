@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ground
   - end
+  - Grapin
   layers:
   - Default
   - TransparentFX
@@ -60,4 +61,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3743406033
+    locked: 0
+  - name: Black
+    uniqueID: 1878055403
     locked: 0
