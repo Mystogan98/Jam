@@ -20,6 +20,7 @@ public class GrapinScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		playerBuff = PlayerBuffScript.Instance;
 		baseAngle = transform.rotation.eulerAngles.z;
 		baseY = transform.position.y;
 		spr = GetComponent<SpriteRenderer>();
@@ -39,13 +40,13 @@ public class GrapinScript : MonoBehaviour {
 				if(Input.GetMouseButtonDown(0) || Input.GetAxisRaw("Vertical") == -1)
 				{
 					Vector2 parent = new Vector2(wagon.transform.position.x,wagon.transform.position.y);
-					Vector2 child = new Vector2(transform.position.x/* + parent.x*/, transform.position.y/* + parent.y*/);
+					Vector2 child = new Vector2(transform.position.x, transform.position.y);
 
 					target = Physics2D.Raycast(child,
 													new Vector2(((child.x - parent.x) / 
 																(child.y - parent.y)) *
-																(child.y + delta * 20),
-																child.y + delta * 20));
+																(child.y + delta),
+																child.y + delta));
 					Debug.DrawLine(child, new Vector2(((child.x - parent.x) / 
 																(child.y - parent.y)) *
 																(child.y + delta * 200),
@@ -53,6 +54,7 @@ public class GrapinScript : MonoBehaviour {
 					Debug.DrawLine(child, target.transform.position ,Color.red ,20);
 					direction = -1;
 					isLaunched = true;
+					target.collider.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
 				} else {
 					if (transform.rotation.eulerAngles.z > baseAngle+clampValue && transform.rotation.eulerAngles.z < baseAngle+clampValue+20)
 						direction = -1;
@@ -89,22 +91,10 @@ public class GrapinScript : MonoBehaviour {
 				if(trg != null)
 					trg.action.Invoke();
 
-				Debug.Log("1");
 				SceneManager.LoadScene("Level",LoadSceneMode.Single);
-				// Debug.Log("2");
-				// //SceneManager.MoveGameObjectToScene(playerBuff.gameObject,SceneManager.GetSceneByName("Level"));
-				// Debug.Log("3");
-				// SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("Shop"));
-				// Debug.Log("4");
 			}
 		}
 	}
 }
 
-
-
 // corde
-// item + drop
-// "cinématique"
-// actual buffs
-// pas de respawn d'item

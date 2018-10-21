@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour {
 	static public PlayerBuffScript playerBuff;
 	static public TriggerEffectScript playerEffects;
 
+	public Sprite skin1, skin2;
+
 	public bool reversed { get {if(_reversed == -1) return true; else return false;} set {if(value == true) _reversed = -1; else _reversed = 1;} }
 	public bool reversedGravity { get {if(_reversedGravity == -1) return true; else return false;} set {if(value == true) _reversedGravity = -1; else _reversed = 1;} }
 	public bool invincibility { get {if(invincibilityCount > 0 || invincibilityTimer > 0) return true; else return false; } }
@@ -26,23 +28,37 @@ public class PlayerController : MonoBehaviour {
 	private bool grounded;
 	private Rigidbody2D rb;
 	private int nbGrounded = 0, _reversed = 1, _reversedGravity = 1;
+	private bool dash = false, tempInv = false;
 	
 
 	private void Start() {
 		playerBuff = GameObject.FindGameObjectWithTag("PlayerBuff").GetComponent<PlayerBuffScript>();
 		playerEffects = GameObject.FindGameObjectWithTag("PlayerEffects").GetComponent<TriggerEffectScript>();
 		rb = GetComponent<Rigidbody2D>();
+		dash = playerBuff.dash;
+		tempInv = playerBuff.tempInv;
+
+		if(playerBuff.skin == 1)
+		{
+			GetComponent<SpriteRenderer>().sprite = skin1;
+		} else if (playerBuff.skin == 2)
+		{
+			GetComponent<SpriteRenderer>().sprite = skin2;
+		}
+
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (playerBuff.dash && Input.GetAxisRaw("Fire1") == 1)
+		if (dash && Input.GetAxisRaw("Fire1") == 1)
 		{
 			playerEffects.Dash();
+			dash = false;
 		}
-		if (playerBuff.tempInv && Input.GetAxisRaw("Fire2") == 1)
+		if (tempInv && Input.GetAxisRaw("Fire2") == 1)
 		{
 			playerEffects.TempInvincibility();
+			tempInv = false;
 		}
 		Move();
 		if(Input.GetAxisRaw("Vertical") > 0 && grounded)

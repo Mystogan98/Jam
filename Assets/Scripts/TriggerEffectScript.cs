@@ -9,8 +9,6 @@ public class TriggerEffectScript : MonoBehaviour {
 	static private PlayerController player;
 	static public PlayerBuffScript playerBuff;
 
-	//static private Scene Shop;
-
 	private void Start() {
 		// if(Shop == null)
 		// 	Shop = SceneManager.GetSceneByName("Shop");
@@ -25,7 +23,12 @@ public class TriggerEffectScript : MonoBehaviour {
 	public void Die()
 	{
 		if(player.invincibility == false)
+		{
+			if(player.transform.position.x > playerBuff.scoreMax)
+				playerBuff.scoreMax = player.transform.position.x;
+			playerBuff.morts++;
 			SceneManager.LoadScene(1,LoadSceneMode.Single);
+		}
 		else if(player.invincibilityCount != 0)
 			player.invincibilityCount--;
 	} 

@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class DistanceText : MonoBehaviour {
 
 	public PlayerController player;
-	public Text distance;
+	public Text distance, morts, distanceMax;
 	public Image inv, TempInv;
+	public PlayerBuffScript playerBuff;
 
 	// Use this for initialization
 	void Start () {
-		
+		playerBuff = PlayerBuffScript.Instance;
 	}
 	
 	// Update is called once per frame
@@ -25,5 +26,7 @@ public class DistanceText : MonoBehaviour {
 			TempInv.enabled = true;
 		else	
 			TempInv.enabled = false;
+		distanceMax.text = "Distance max : " + (int) playerBuff.scoreMax + "m";
+		morts.text = "Morts : " + playerBuff.morts; 
 	}
 }

@@ -6,6 +6,7 @@ public class BuffSpawnerScript : MonoBehaviour {
 
 	public List<GameObject> buffCS, DashDuration, DashVitesse, DureeInv, trash;
 	public GameObject Dash, Inv, TempInv;
+	public GameObject skin1, skin2, skin1base, skin2base;
 	static public PlayerBuffScript player;
 
 	// Use this for initialization
@@ -39,6 +40,16 @@ public class BuffSpawnerScript : MonoBehaviour {
 				trash[i].SetActive(false);
 			else	
 				break;
+		}
+
+		if(player.skin == 1)
+		{
+			skin1.SetActive(false);
+			skin1base.SetActive(true);
+		} else if(player.skin == 2)
+		{
+			skin2.SetActive(false);
+			skin2base.SetActive(true);
 		}
 	}
 }
