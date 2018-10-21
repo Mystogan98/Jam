@@ -51,14 +51,19 @@ public class PlayerController : MonoBehaviour {
 	private void OnCollisionEnter2D(Collision2D other) {
 		if(other.gameObject.CompareTag("ground"))
 		{
-			grounded = true;
-			nbGrounded++;
+			PlatformScript ptr = other.gameObject.GetComponent<PlatformScript>();
+			if(ptr.reversed == reversedGravity)
+			{
+				grounded = true;
+				nbGrounded++;
+			}
 		}
 	}
 
 	private void OnCollisionExit2D(Collision2D other) {
 		if(other.gameObject.CompareTag("ground"))
-			nbGrounded--;
+			if(nbGrounded != 0)
+				nbGrounded--;
 			if(nbGrounded == 0)
 				grounded = false; 
 	}
