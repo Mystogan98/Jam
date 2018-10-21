@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour {
 	public float jumpForce;
 	[Tooltip("Player's dashing speed")]
 	public float dashSpeed;
+	static public PlayerBuffScript playerBuff;
+	static public TriggerEffectScript playerEffects;
 
 	public bool reversed { get {if(_reversed == -1) return true; else return false;} set {if(value == true) _reversed = -1; else _reversed = 1;} }
 	public bool reversedGravity { get {if(_reversedGravity == -1) return true; else return false;} set {if(value == true) _reversedGravity = -1; else _reversed = 1;} }
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 
 	[HideInInspector]
 	public int invincibilityCount = 0;
+	[HideInInspector]
 	public float invincibilityTimer = 0, dashTimer = 0;
 
 	private bool grounded;
@@ -26,11 +29,21 @@ public class PlayerController : MonoBehaviour {
 	
 
 	private void Start() {
+		playerBuff = GameObject.FindGameObjectWithTag("PlayerBuff").GetComponent<PlayerBuffScript>();
+		playerEffects = GameObject.FindGameObjectWithTag("PlayerEffects").GetComponent<TriggerEffectScript>();
 		rb = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		if (playerBuff.dash && Input.GetAxisRaw("Fire1") == 1)
+		{
+			playerEffects.Dash();
+		}
+		if (playerBuff.tempInv && Input.GetAxisRaw("Fire2") == 1)
+		{
+			playerEffects.TempInvincibility();
+		}
 		Move();
 		if(Input.GetAxisRaw("Vertical") > 0 && grounded)
 			rb.velocity += Vector2.up *  jumpForce * _reversedGravity;

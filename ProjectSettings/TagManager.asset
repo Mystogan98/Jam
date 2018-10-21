@@ -7,6 +7,8 @@ TagManager:
   - ground
   - end
   - Grapin
+  - PlayerBuff
+  - PlayerEffects
   layers:
   - Default
   - TransparentFX

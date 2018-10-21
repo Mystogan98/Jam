@@ -27,11 +27,16 @@ public class GrapinScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(transform.position.x < 0)
+		{
+			transform.parent.position += Vector3.right * 3 * Time.deltaTime;
+			return;
+		}
 		if(direction != 0)
 		{
 			if(!isLaunched)
 			{
-				if(Input.GetMouseButtonDown(0))
+				if(Input.GetMouseButtonDown(0) || Input.GetAxisRaw("Vertical") == -1)
 				{
 					Vector2 parent = new Vector2(wagon.transform.position.x,wagon.transform.position.y);
 					Vector2 child = new Vector2(transform.position.x/* + parent.x*/, transform.position.y/* + parent.y*/);
@@ -39,13 +44,13 @@ public class GrapinScript : MonoBehaviour {
 					target = Physics2D.Raycast(child,
 													new Vector2(((child.x - parent.x) / 
 																(child.y - parent.y)) *
-																(child.y + delta),
-																child.y + delta));
-					// Debug.DrawLine(child, new Vector2(((child.x - parent.x) / 
-					// 											(child.y - parent.y)) *
-					// 											(child.y + delta * 200),
-					// 											child.y + delta * 200),Color.black,20);
-					// Debug.DrawLine(child, target.transform.position ,Color.red ,20);
+																(child.y + delta * 20),
+																child.y + delta * 20));
+					Debug.DrawLine(child, new Vector2(((child.x - parent.x) / 
+																(child.y - parent.y)) *
+																(child.y + delta * 200),
+																child.y + delta * 200),Color.black,20);
+					Debug.DrawLine(child, target.transform.position ,Color.red ,20);
 					direction = -1;
 					isLaunched = true;
 				} else {
@@ -76,13 +81,21 @@ public class GrapinScript : MonoBehaviour {
 			{
 				alpha *= 1.1f;
 				Black.color = new Color(1,1,1,alpha);
-				Debug.Log(alpha);
 			}
-			if(alpha >= 0.9)
+			if(alpha >= 0.9 && alpha < 1.1)
 			{
-				target.collider.gameObject.GetComponent<TriggerScript>().action.Invoke();
-				SceneManager.MoveGameObjectToScene(playerBuff.gameObject,SceneManager.GetSceneByName("Level"));
-				SceneManager.LoadScene("Level");
+				alpha = 2;
+				TriggerScript trg =	target.collider.gameObject.GetComponent<TriggerScript>();
+				if(trg != null)
+					trg.action.Invoke();
+
+				Debug.Log("1");
+				SceneManager.LoadScene("Level",LoadSceneMode.Single);
+				// Debug.Log("2");
+				// //SceneManager.MoveGameObjectToScene(playerBuff.gameObject,SceneManager.GetSceneByName("Level"));
+				// Debug.Log("3");
+				// SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("Shop"));
+				// Debug.Log("4");
 			}
 		}
 	}

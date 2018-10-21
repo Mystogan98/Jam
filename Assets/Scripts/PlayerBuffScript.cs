@@ -6,6 +6,7 @@ public class PlayerBuffScript : MonoBehaviour {
 
 	public bool dash, inv, tempInv;
 	public int reducCS, dashDuration, dashVitesse, dureeInv;
+	public int trash;
 
 	public void setDash() { dash = true; }
 	public void setInv() { inv = true; }
@@ -14,4 +15,9 @@ public class PlayerBuffScript : MonoBehaviour {
 	public void setDashDuration() { dashDuration++; }
 	public void setDashVitesse() { dashVitesse++; }
 	public void setDureeInv() { dureeInv++; }
+	public void setTrash() { trash++; }
+
+	private void Start() {
+		DontDestroyOnLoad(this.gameObject);
+	}
 }

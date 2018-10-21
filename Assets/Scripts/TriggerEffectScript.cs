@@ -7,15 +7,25 @@ public class TriggerEffectScript : MonoBehaviour {
 
 	public float InvincibilityTimer = 3, dashTimer = 1;
 	static private PlayerController player;
+	static public PlayerBuffScript playerBuff;
+
+	//static private Scene Shop;
 
 	private void Start() {
+		// if(Shop == null)
+		// 	Shop = SceneManager.GetSceneByName("Shop");
 		player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+		playerBuff = GameObject.FindGameObjectWithTag("PlayerBuff").GetComponent<PlayerBuffScript>();
+		InvincibilityTimer += 0.5f * playerBuff.dureeInv;
+		dashTimer += 0.25f * playerBuff.dashDuration;
+		player.dashSpeed += 2.5f * playerBuff.dashVitesse;
+		player.invincibilityCount += (playerBuff.inv)?1:0;
 	}
 
 	public void Die()
 	{
 		if(player.invincibility == false)
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			SceneManager.LoadScene(1,LoadSceneMode.Single);
 		else if(player.invincibilityCount != 0)
 			player.invincibilityCount--;
 	} 

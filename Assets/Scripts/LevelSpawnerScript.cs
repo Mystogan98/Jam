@@ -21,7 +21,6 @@ public class LevelSpawnerScript : MonoBehaviour {
 		if(other.gameObject.CompareTag("end"))
 		{
 			int rand = Random.Range(0,levels.Count-1);
-			Debug.Log(rand);
 			Instantiate(levels[rand],spawnTransform.transform.position,spawnTransform.transform.rotation);
 		}
 	}

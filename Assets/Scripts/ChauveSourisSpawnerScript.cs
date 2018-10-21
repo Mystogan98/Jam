@@ -8,10 +8,14 @@ public class ChauveSourisSpawnerScript : MonoBehaviour {
 	public float randomSpawnTime;
 	public GameObject toSpawn;
 
+	static public PlayerBuffScript player;
+
 	private float timer = 0, lastSpawn, reloadTime;
 
 	// Use this for initialization
 	void Start () {
+		player = GameObject.FindGameObjectWithTag("PlayerBuff").GetComponent<PlayerBuffScript>();
+		baseReloadTime += (baseReloadTime/10) * player.reducCS;
 		lastSpawn = startTimer;
 	}
 	
