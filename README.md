@@ -1,5 +1,4 @@
 # Donjons & Wagons
-Game Jam 20/10
 
 First aver game jam I made, you can play the game [here](https://github.com/Mystogan98/Jam/raw/master/Donjons%20%26%20Wagons.zip)
 
